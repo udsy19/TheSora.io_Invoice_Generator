@@ -29,8 +29,21 @@ const AuthRequired = () => {
   const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
   
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      loginWithRedirect();
+    // Check if this is a redirect back from Auth0
+    const hasAuthParams = window.location.search.includes('code=') || 
+                         window.location.search.includes('error=') ||
+                         window.location.search.includes('state=');
+    
+    // Only redirect to login if:
+    // 1. We're not already loading the auth state
+    // 2. User is definitely not authenticated
+    // 3. We're not in the middle of an Auth0 redirect
+    if (!isLoading && !isAuthenticated && !hasAuthParams) {
+      // Redirect to Auth0 login page
+      loginWithRedirect({
+        // Pass the current path as the returnTo parameter
+        appState: { returnTo: window.location.pathname }
+      });
     }
   }, [isAuthenticated, isLoading, loginWithRedirect]);
   
