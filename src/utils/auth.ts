@@ -2,13 +2,19 @@ import { Auth0ProviderOptions } from '@auth0/auth0-react';
 
 // Explicitly set redirect URI based on hostname
 const getRedirectUri = () => {
-  const origin = window.location.origin;
-  // If we're on the production domain
-  if (origin.includes('invoice.thesora.io')) {
-    return 'https://invoice.thesora.io';
+  // In browsers, use the current origin
+  if (typeof window !== 'undefined') {
+    const origin = window.location.origin;
+    // If we're on the production domain
+    if (origin.includes('invoice.thesora.io')) {
+      return 'https://invoice.thesora.io';
+    }
+    // Otherwise, use the current origin (for localhost or other environments)
+    return origin;
   }
-  // Otherwise, use the current origin (for localhost or other environments)
-  return origin;
+  
+  // Fallback for SSR - should be replaced with your production URL
+  return 'https://invoice.thesora.io';
 };
 
 // Auth0 configuration
@@ -17,10 +23,11 @@ export const authConfig: Auth0ProviderOptions = {
   clientId: "FIXspjFabi5yF9aoOXouRFP2XXqDoxJy",
   authorizationParams: {
     redirect_uri: getRedirectUri(),
-    audience: "https://api.thesora.io",
-    scope: "openid profile email read:current_user update:current_user_metadata"
+    scope: "openid profile email"
   },
   // Auth0 session management
   useRefreshTokens: true,
-  cacheLocation: "localstorage"
+  cacheLocation: "localstorage",
+  // Simpler configuration to avoid issues
+  skipRedirectCallback: false
 };

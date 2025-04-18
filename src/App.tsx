@@ -17,33 +17,36 @@ interface ProtectedRouteProps {
   element: React.ReactNode;
 }
 
-// Loading component
-const Loading = () => (
-  <div className="flex items-center justify-center min-h-screen bg-[#f8f9fa]">
-    <div className="animate-pulse text-2xl font-neue text-gray-700">Loading...</div>
-  </div>
-);
+// Loading component with debug info
+const Loading = () => {
+  // Get authentication error details if available
+  const { error, isLoading, isAuthenticated } = useAuth0();
+  
+  // Show detailed error in development
+  const debugInfo = process.env.NODE_ENV === 'development' ? (
+    <div className="mt-4 text-sm text-red-500">
+      {error ? `Error: ${error.message}` : ''}
+      <div>Auth State: {isLoading ? 'Loading' : (isAuthenticated ? 'Authenticated' : 'Not Authenticated')}</div>
+      <div>URL: {window.location.href}</div>
+    </div>
+  ) : null;
+  
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#f8f9fa]">
+      <div className="animate-pulse text-2xl font-neue text-gray-700">Loading...</div>
+      {debugInfo}
+    </div>
+  );
+};
 
 // Auth component that redirects to Auth0 login if not authenticated
 const AuthRequired = () => {
   const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
   
   useEffect(() => {
-    // Check if this is a redirect back from Auth0
-    const hasAuthParams = window.location.search.includes('code=') || 
-                         window.location.search.includes('error=') ||
-                         window.location.search.includes('state=');
-    
-    // Only redirect to login if:
-    // 1. We're not already loading the auth state
-    // 2. User is definitely not authenticated
-    // 3. We're not in the middle of an Auth0 redirect
-    if (!isLoading && !isAuthenticated && !hasAuthParams) {
-      // Redirect to Auth0 login page
-      loginWithRedirect({
-        // Pass the current path as the returnTo parameter
-        appState: { returnTo: window.location.pathname }
-      });
+    if (!isLoading && !isAuthenticated) {
+      // Simple redirect to Auth0 login
+      loginWithRedirect();
     }
   }, [isAuthenticated, isLoading, loginWithRedirect]);
   

@@ -8,21 +8,13 @@ interface Auth0ProviderWithNavigateProps {
 }
 
 export const Auth0ProviderWithNavigate = ({ children }: Auth0ProviderWithNavigateProps) => {
-  // Handle the redirect after authentication - avoiding redirect loops
+  // Handle the redirect after authentication
   const onRedirectCallback = (appState: any) => {
-    // Check if we've been redirected from Auth0
-    const isFromAuth0 = window.location.search.includes('code=') && 
-                         window.location.search.includes('state=');
-    
-    // Only redirect if we came from Auth0, otherwise leave the URL as is
-    if (isFromAuth0) {
-      // If there's a stored location, navigate to it, otherwise go to the root
-      if (appState?.returnTo) {
-        window.location.replace(appState.returnTo);
-      } else {
-        // Use replace instead of href to avoid creating a history entry
-        window.location.replace(window.location.origin);
-      }
+    // If there's a stored location, navigate to it, otherwise go to the root
+    if (appState?.returnTo) {
+      window.location.href = appState.returnTo;
+    } else {
+      window.location.href = '/';
     }
   };
 
