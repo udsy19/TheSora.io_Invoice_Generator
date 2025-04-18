@@ -1,7 +1,6 @@
 import { Auth0Provider } from '@auth0/auth0-react';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import { authConfig } from '@/utils/auth';
-import { useNavigate } from 'react-router-dom';
 
 // Auth0 provider component
 interface Auth0ProviderWithNavigateProps {
