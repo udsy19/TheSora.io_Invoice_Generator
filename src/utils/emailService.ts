@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 
 // EmailJS credentials
 const EMAIL_SERVICE_ID = 'service_1ue686r';
-const EMAIL_TEMPLATE_ID = 'template_invoice_reminder'; // You'll need to create this template in EmailJS
+const EMAIL_TEMPLATE_ID = 'template_x79uf6b'; // Updated to the correct template ID
 const EMAIL_PUBLIC_KEY = 'CVAoJiccelkwIf9NY';
 
 export enum ReminderType {
@@ -29,7 +29,7 @@ export const sendReminderEmail = async ({
   reminderType,
   attachment,
   customMessage
-}: SendReminderEmailParams): Promise<boolean> => {
+}: SendReminderEmailParams): Promise<{ success: boolean, error?: string }> => {
   try {
     // Create form data for email with attachment
     const formData = new FormData();
@@ -40,15 +40,16 @@ export const sendReminderEmail = async ({
     const shootMonth = format(shootDate, 'MMMM');
     const shootDateNum = format(shootDate, 'd');
     
-    // Prepare template parameters
+    // Prepare template parameters matching the EmailJS template variables
     const templateParams = {
       to_email: invoiceData.clientInfo.email,
-      name: invoiceData.clientInfo.name,
+      name: invoiceData.clientInfo.name || 'Client',
       shoot_day: shootDay,
       shoot_month: shootMonth,
       shoot_date: shootDateNum,
       shoot_location: invoiceData.shootLocation || 'Hovde Hall',
-      custom_message: customMessage || ''
+      custom_message: customMessage || '',
+      service_type: reminderType === ReminderType.INVOICE ? 'invoice payment' : 'contract signature',
     };
 
     // Add parameters to form data
@@ -60,21 +61,6 @@ export const sendReminderEmail = async ({
     Object.keys(templateParams).forEach(key => {
       formData.append(`template_params[${key}]`, templateParams[key as keyof typeof templateParams]);
     });
-    
-    // Handle custom message if provided
-    if (customMessage) {
-      formData.append('template_params[custom_message]', customMessage);
-    }
-    
-    // Add attachment if provided
-    if (attachment) {
-      formData.append('file', attachment.file, attachment.name);
-      // Set the PDF attachment field in template params
-      formData.append('template_params[has_attachment]', 'true');
-      formData.append('template_params[attachment_name]', attachment.name);
-    } else {
-      formData.append('template_params[has_attachment]', 'false');
-    }
     
     // Send email using fetch to support file attachments
     const response = await fetch('https://api.emailjs.com/api/v1.0/email/send-form', {
@@ -103,7 +89,7 @@ export const sendReminderEmail = async ({
       } else {
         return { 
           success: false, 
-          error: 'Failed to send email. ' + errorText
+          error: 'Failed to send email: ' + errorText
         };
       }
     }
