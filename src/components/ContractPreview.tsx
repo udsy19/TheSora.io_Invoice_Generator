@@ -37,26 +37,21 @@ const ContractPreview = forwardRef<HTMLDivElement, ContractPreviewProps>(({ invo
     >
       {/* Header with custom gradient background */}
       <div 
-        className="relative h-[200px] overflow-hidden bg-[#fff3ea]"
+        className="relative overflow-hidden bg-[#fff3ea]"
+        style={{ height: 'auto' }}
       >
-        <div className="absolute inset-0 flex items-center justify-center">
-          {/* Banner image */}
-          <img 
-            src="/images/Banner.png" 
-            alt="The Sora.io Photography" 
-            className="max-w-full max-h-full object-cover"
-            style={{ 
-              width: '100%',
-              height: '100%'
-            }}
-            onError={(e) => {
-              // Fallback to typography logo if banner fails to load
-              const target = e.target as HTMLImageElement;
-              target.onerror = null; // Prevent infinite loop
-              target.src = "/images/White_Typography_Logo.png";
-            }}
-          />
-        </div>
+        {/* Banner image */}
+        <img 
+          src="/images/Banner.png" 
+          alt="The Sora.io Photography" 
+          className="w-full h-auto object-contain"
+          onError={(e) => {
+            // Fallback to typography logo if banner fails to load
+            const target = e.target as HTMLImageElement;
+            target.onerror = null; // Prevent infinite loop
+            target.src = "/images/White_Typography_Logo.png";
+          }}
+        />
         
         {/* Overlay to ensure text readability */}
         <div 

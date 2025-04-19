@@ -53,15 +53,9 @@ const Contract = () => {
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-center mb-6">
             <img 
-              src="/images/White_Typography_Logo.png" 
+              src="/images/Logo.png" 
               alt="The Sora Photography" 
               className="h-24 object-contain"
-              onError={(e) => {
-                // Fallback to old logo if this fails
-                const target = e.target as HTMLImageElement;
-                target.onerror = null; // Prevent infinite loop
-                target.src = "/images/Logo.png";
-              }}
             />
           </div>
           <h1 className="text-3xl md:text-4xl font-playfair font-bold text-center text-white mt-6">
