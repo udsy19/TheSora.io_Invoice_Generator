@@ -29,15 +29,9 @@ export default function Login() {
         <CardHeader className="items-center space-y-4">
           <div className="w-16 h-16 mb-2">
             <img 
-              src="/lovable-uploads/feba6c93-34ca-4f7a-9394-da9dd59b3122.png" 
+              src="/images/Logo.png" 
               alt="The Sora Photography" 
               className="w-full h-full object-contain"
-              onError={(e) => {
-                // Fallback to this path if the first one fails
-                const target = e.target as HTMLImageElement;
-                target.onerror = null; // Prevent infinite loop
-                target.src = "/images/logo.png";
-              }}
             />
           </div>
           <CardTitle className="text-2xl">Sora Invoice Generator</CardTitle>

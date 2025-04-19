@@ -46,7 +46,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-center mb-6">
             <img 
-              src="/lovable-uploads/feba6c93-34ca-4f7a-9394-da9dd59b3122.png" 
+              src="/images/Logo.png" 
               alt="The Sora Photography" 
               className="h-24 object-contain"
               onError={(e) => {

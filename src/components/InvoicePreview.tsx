@@ -45,15 +45,9 @@ const InvoicePreview = forwardRef<HTMLDivElement, InvoicePreviewProps>(({ invoic
     >
       <div className="relative h-[280px]">
         <img 
-          src="/lovable-uploads/4e37fa30-fdbe-431c-a5e7-1ded4de7be3e.png"
+          src="/images/Logo.png"
           alt="The Sora Photography Banner"
           className="w-full h-full object-cover"
-          onError={(e) => {
-            // Fallback to this path if the first one fails
-            const target = e.target as HTMLImageElement;
-            target.onerror = null; // Prevent infinite loop
-            target.src = "/images/logo.png";
-          }}
         />
       </div>
       

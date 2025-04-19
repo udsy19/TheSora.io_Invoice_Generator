@@ -45,15 +45,9 @@ const ContractPreview = forwardRef<HTMLDivElement, ContractPreviewProps>(({ invo
       >
         {/* Decorative elements */}
         <img 
-          src="/lovable-uploads/1d060653-e13d-4683-acc2-669c7662c79d.png" 
+          src="/images/Logo.png" 
           alt="The Sora.io Photography" 
           className="absolute inset-0 w-full h-full object-cover"
-          onError={(e) => {
-            // Fallback to this path if the first one fails
-            const target = e.target as HTMLImageElement;
-            target.onerror = null; // Prevent infinite loop
-            target.src = "/images/logo.png";
-          }}
         />
         
         {/* Overlay to ensure text readability */}
@@ -181,15 +175,9 @@ const ContractPreview = forwardRef<HTMLDivElement, ContractPreviewProps>(({ invo
             <div className="w-64 text-center">
               <div className="mb-2">
                 <img 
-                  src="/lovable-uploads/5805c9d4-7b39-4c1f-9ad5-53d7c76c7069.png" 
-                  alt="Udaya Vijay Anand Signature" 
+                  src="/images/Logo.png" 
+                  alt="Signature" 
                   className="h-16 mx-auto"
-                  onError={(e) => {
-                    // Fallback to this path if the first one fails
-                    const target = e.target as HTMLImageElement;
-                    target.onerror = null; // Prevent infinite loop
-                    target.src = "/images/logo.png";
-                  }}
                 />
               </div>
               <div className="border-t border-black pt-2">
@@ -212,15 +200,9 @@ const ContractPreview = forwardRef<HTMLDivElement, ContractPreviewProps>(({ invo
         {/* Footer with faint logo */}
         <footer className="mt-24 flex justify-center opacity-20">
           <img 
-            src="/lovable-uploads/c715546f-a9b7-43c4-93de-1aefca17d434.png" 
+            src="/images/Logo.png" 
             alt="The Sora Photography" 
             className="w-32 h-auto"
-            onError={(e) => {
-              // Fallback to this path if the first one fails
-              const target = e.target as HTMLImageElement;
-              target.onerror = null; // Prevent infinite loop
-              target.src = "/images/logo.png";
-            }}
           />
         </footer>
       </div>
