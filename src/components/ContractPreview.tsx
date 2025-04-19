@@ -52,10 +52,10 @@ const ContractPreview = forwardRef<HTMLDivElement, ContractPreviewProps>(({ invo
             transformOrigin: "center"
           }}
           onError={(e) => {
-            // Fallback to logo if banner fails to load
+            // Fallback to typography logo if banner fails to load
             const target = e.target as HTMLImageElement;
             target.onerror = null; // Prevent infinite loop
-            target.src = "/images/Logo.png";
+            target.src = "/images/White_Typography_Logo.png";
           }}
         />
         
@@ -215,9 +215,14 @@ const ContractPreview = forwardRef<HTMLDivElement, ContractPreviewProps>(({ invo
         {/* Footer with faint logo */}
         <footer className="mt-24 flex justify-center opacity-20">
           <img 
-            src="/images/Logo.png" 
+            src="/images/White_Typography_Logo.png" 
             alt="The Sora Photography" 
             className="w-32 h-auto"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.onerror = null;
+              target.src = "/images/Logo.png";
+            }}
           />
         </footer>
       </div>

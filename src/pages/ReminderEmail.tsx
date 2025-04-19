@@ -290,7 +290,16 @@ const ReminderEmail = () => {
       
       {/* Footer */}
       <footer className="mt-16 pb-8 text-center text-gray-500 font-neue border-t border-gray-100 pt-8">
-        <img src="/images/Logo.png" alt="The Sora" className="h-8 mx-auto mb-2" />
+        <img 
+          src="/images/White_Typography_Logo.png" 
+          alt="The Sora" 
+          className="h-8 mx-auto mb-2" 
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.onerror = null;
+            target.src = "/images/Logo.png";
+          }}
+        />
         <p className="text-sm">© {new Date().getFullYear()} The Sora Photography. All rights reserved.</p>
       </footer>
     </div>

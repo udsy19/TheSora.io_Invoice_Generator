@@ -31,10 +31,17 @@ const Navigation: React.FC = () => {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-6 md:gap-8">
           <Link to="/" className="flex items-center space-x-2">
-            <img src="/images/Logo.png" alt="The Sora" className="h-9 w-auto" />
-            <span className="hidden font-playfair text-xl font-bold md:inline-block">
-              The Sora
-            </span>
+            <img 
+              src="/images/White_Typography_Logo.png" 
+              alt="The Sora" 
+              className="h-10 w-auto" 
+              onError={(e) => {
+                // Fallback to the old logo if this fails
+                const target = e.target as HTMLImageElement;
+                target.onerror = null; // Prevent infinite loop
+                target.src = "/images/Logo.png";
+              }}
+            />
           </Link>
           
           {/* Desktop navigation */}

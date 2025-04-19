@@ -53,10 +53,10 @@ const InvoicePreview = forwardRef<HTMLDivElement, InvoicePreviewProps>(({ invoic
             transformOrigin: "center"
           }}
           onError={(e) => {
-            // Fallback to logo if banner fails to load
+            // Fallback to typography logo if banner fails to load
             const target = e.target as HTMLImageElement;
             target.onerror = null; // Prevent infinite loop
-            target.src = "/images/Logo.png";
+            target.src = "/images/White_Typography_Logo.png";
           }}
         />
       </div>
