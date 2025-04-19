@@ -43,11 +43,17 @@ const InvoicePreview = forwardRef<HTMLDivElement, InvoicePreviewProps>(({ invoic
       className="w-full bg-[#fff8f2] rounded-xl overflow-hidden shadow-md"
       style={{ maxWidth: '800px' }}
     >
-      <div className="relative h-[280px]">
+      <div className="relative h-[200px]">
         <img 
-          src="/images/Logo.png"
+          src="/images/Banner.png"
           alt="The Sora Photography Banner"
           className="w-full h-full object-cover"
+          onError={(e) => {
+            // Fallback to logo if banner fails to load
+            const target = e.target as HTMLImageElement;
+            target.onerror = null; // Prevent infinite loop
+            target.src = "/images/Logo.png";
+          }}
         />
       </div>
       

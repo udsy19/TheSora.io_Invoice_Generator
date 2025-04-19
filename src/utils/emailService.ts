@@ -84,15 +84,35 @@ export const sendReminderEmail = async ({
 
     if (response.ok) {
       console.log('Email sent successfully');
-      return true;
+      return { success: true };
     } else {
       const errorText = await response.text();
       console.error('Email error response:', errorText);
-      return false;
+      
+      // Check for common errors
+      if (errorText.includes('credit') || errorText.includes('quota') || errorText.includes('limit')) {
+        return { 
+          success: false, 
+          error: 'EmailJS credit balance is too low. Please check your account.' 
+        };
+      } else if (errorText.includes('template')) {
+        return { 
+          success: false, 
+          error: 'Template not found or template error. Please check your EmailJS template configuration.' 
+        };
+      } else {
+        return { 
+          success: false, 
+          error: 'Failed to send email. ' + errorText
+        };
+      }
     }
   } catch (error) {
     console.error('Error sending email:', error);
-    return false;
+    return { 
+      success: false, 
+      error: 'Network or configuration error. Please check your internet connection and EmailJS settings.' 
+    };
   }
 };
 

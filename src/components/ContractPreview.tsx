@@ -37,17 +37,22 @@ const ContractPreview = forwardRef<HTMLDivElement, ContractPreviewProps>(({ invo
     >
       {/* Header with custom gradient background */}
       <div 
-        className="relative h-[280px] flex items-center justify-center"
+        className="relative h-[200px] flex items-center justify-center"
         style={{ 
-          background: 'linear-gradient(135deg, #FFCAD4 0%, #FFE5D9 50%, #F9E5E1 100%)',
           overflow: 'hidden'
         }}
       >
-        {/* Decorative elements */}
+        {/* Banner image */}
         <img 
-          src="/images/Logo.png" 
+          src="/images/Banner.png" 
           alt="The Sora.io Photography" 
           className="absolute inset-0 w-full h-full object-cover"
+          onError={(e) => {
+            // Fallback to logo if banner fails to load
+            const target = e.target as HTMLImageElement;
+            target.onerror = null; // Prevent infinite loop
+            target.src = "/images/Logo.png";
+          }}
         />
         
         {/* Overlay to ensure text readability */}
@@ -175,9 +180,15 @@ const ContractPreview = forwardRef<HTMLDivElement, ContractPreviewProps>(({ invo
             <div className="w-64 text-center">
               <div className="mb-2">
                 <img 
-                  src="/images/Logo.png" 
+                  src="/images/signture.png" 
                   alt="Signature" 
                   className="h-16 mx-auto"
+                  onError={(e) => {
+                    // Fallback to logo if signature fails to load
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null; // Prevent infinite loop
+                    target.src = "/images/Logo.png";
+                  }}
                 />
               </div>
               <div className="border-t border-black pt-2">
