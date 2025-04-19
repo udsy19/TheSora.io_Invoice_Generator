@@ -126,7 +126,8 @@ const ReminderEmail = () => {
           <img 
             src="/images/Banner.png" 
             alt="The Sora Photography" 
-            className="hidden md:block h-14 object-contain rounded-md"
+            className="hidden md:block h-16 object-contain rounded-md scale-[0.8]"
+            style={{ transformOrigin: "right center" }}
           />
         </div>
         

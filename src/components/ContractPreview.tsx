@@ -46,7 +46,11 @@ const ContractPreview = forwardRef<HTMLDivElement, ContractPreviewProps>(({ invo
         <img 
           src="/images/Banner.png" 
           alt="The Sora.io Photography" 
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-contain scale-[0.8]"
+          style={{ 
+            objectPosition: "center",
+            transformOrigin: "center"
+          }}
           onError={(e) => {
             // Fallback to logo if banner fails to load
             const target = e.target as HTMLImageElement;
