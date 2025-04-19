@@ -6,9 +6,10 @@ import { InvoiceData } from '../types/invoice';
 export const generatePDF = async (
   elementRef: React.RefObject<HTMLDivElement>, 
   invoiceData: InvoiceData,
-  customFilename?: string
+  customFilename?: string,
+  saveFile: boolean = true
 ) => {
-  if (!elementRef.current) return;
+  if (!elementRef.current) return null;
   
   try {
     // Load fonts before generating PDF
@@ -63,13 +64,18 @@ export const generatePDF = async (
     const filename = customFilename 
       ? `${customFilename}.pdf`
       : `Invoice-${invoiceData.invoiceNumber}.pdf`;
-      
-    pdf.save(filename);
     
-    return true;
+    // If saveFile is true, save the file to disk
+    if (saveFile) {
+      pdf.save(filename);
+    }
+    
+    // Return the PDF blob and filename for email attachment
+    const pdfBlob = pdf.output('blob');
+    return { blob: pdfBlob, filename };
   } catch (error) {
     console.error('Error generating PDF:', error);
-    return false;
+    return null;
   }
 };
 

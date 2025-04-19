@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import InvoiceForm from '@/components/InvoiceForm';
@@ -8,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { FileText } from 'lucide-react';
 import { InvoiceData } from '@/types/invoice';
 import { useNavigate } from 'react-router-dom';
+import Navigation from '@/components/Navigation';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -41,6 +41,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-[#f8f9fa]">
+      <Navigation />
+      
       {/* Header with gradient background */}
       <div className="bg-sora-gradient pt-12 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">

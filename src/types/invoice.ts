@@ -17,7 +17,19 @@ export interface InvoiceData {
   invoiceNumber: string;
   issueDate: string;
   dueDate: string;
+  date?: string;
+  shootDate?: Date;
+  shootLocation?: string;
   clientInfo: ClientInfo;
+  businessInfo?: BusinessInfo;
   lineItems: LineItem[];
+  totalAmount?: number;
   paymentDetails: string;
+}
+
+export interface BusinessInfo {
+  businessName?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
 }

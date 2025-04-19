@@ -9,6 +9,7 @@ import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { InvoiceData } from '@/types/invoice';
+import Navigation from '@/components/Navigation';
 
 const Contract = () => {
   const location = useLocation();
@@ -45,6 +46,8 @@ const Contract = () => {
 
   return (
     <div className="min-h-screen bg-[#f8f9fa]">
+      <Navigation />
+      
       {/* Header with gradient background */}
       <div className="bg-sora-gradient pt-12 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">

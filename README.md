@@ -57,3 +57,35 @@ This project is built with:
 ## Login System Integration
 
 The application uses Auth0 for authentication. The login page provides secure access to the invoice and contract generator tools.
+
+## Email Document Feature
+
+The application includes an email feature that allows you to send invoices and contracts directly to clients as PDF attachments. The system uses EmailJS to send emails directly from the browser.
+
+### Setup EmailJS
+
+1. Sign up for a free account at [EmailJS](https://www.emailjs.com/)
+2. Create a new email service (e.g., Gmail, Outlook)
+3. Create an email template with the following variables:
+   - `to_email`: Client's email address
+   - `to_name`: Client's name
+   - `from_name`: Your business name
+   - `doc_type`: Type of document (invoice or contract)
+   - `invoice_number`: The invoice number
+   - `due_amount`: The total amount due
+   - `issue_date`: When the invoice was issued
+   - `due_date`: When payment is due
+   - `business_contact`: Your contact information
+   - `has_attachment`: Boolean indicating if there's an attachment
+   - `attachment_name`: The name of the attached file
+
+4. The PDF document is automatically attached when you click the "Email Invoice" or "Email Contract" button.
+
+5. Update the credentials in `src/utils/emailService.ts` with your EmailJS details:
+   ```typescript
+   const EMAIL_SERVICE_ID = 'your_service_id';
+   const EMAIL_TEMPLATE_ID = 'your_template_id';
+   const EMAIL_PUBLIC_KEY = 'your_public_key';
+   ```
+
+These credentials can be found in your EmailJS dashboard.

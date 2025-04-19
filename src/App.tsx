@@ -8,8 +8,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import Index from "./pages/Index";
 import Contract from "./pages/Contract";
+import ReminderEmail from "./pages/ReminderEmail";
 import NotFound from "./pages/NotFound";
 import { Auth0ProviderWithNavigate } from "@/components/Auth0Provider";
+import { initEmailService } from "@/utils/emailService";
 
 const queryClient = new QueryClient();
 
@@ -74,23 +76,31 @@ const ProtectedRoute = ({ element }: ProtectedRouteProps) => {
   return <AuthRequired />;
 };
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Auth0ProviderWithNavigate>
-          <Routes>
-            <Route path="/" element={<ProtectedRoute element={<Index />} />} />
-            <Route path="/contract" element={<ProtectedRoute element={<Contract />} />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Auth0ProviderWithNavigate>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  // Initialize EmailJS service when app loads
+  useEffect(() => {
+    initEmailService();
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Auth0ProviderWithNavigate>
+            <Routes>
+              <Route path="/" element={<ProtectedRoute element={<Index />} />} />
+              <Route path="/contract" element={<ProtectedRoute element={<Contract />} />} />
+              <Route path="/reminder" element={<ProtectedRoute element={<ReminderEmail />} />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Auth0ProviderWithNavigate>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
