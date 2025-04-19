@@ -31,19 +31,21 @@ export const sendReminderEmail = async ({
   customMessage
 }: SendReminderEmailParams): Promise<{ success: boolean, error?: string }> => {
   try {
-    // Create form data for email with attachment
-    const formData = new FormData();
-    
     // Format shoot date for template
     const shootDate = invoiceData.shootDate ? new Date(invoiceData.shootDate) : new Date();
     const shootDay = format(shootDate, 'EEEE');
     const shootMonth = format(shootDate, 'MMMM');
     const shootDateNum = format(shootDate, 'd');
     
+    // Debug info
+    console.log('Client email:', invoiceData.clientInfo.email);
+    
     // Prepare template parameters matching the EmailJS template variables
     const templateParams = {
       to_email: invoiceData.clientInfo.email,
-      name: invoiceData.clientInfo.name || 'Client',
+      to_name: invoiceData.clientInfo.name || 'Client',
+      from_name: 'The Sora Photography',
+      from_email: 'hello@thesora.io',
       shoot_day: shootDay,
       shoot_month: shootMonth,
       shoot_date: shootDateNum,
@@ -51,53 +53,33 @@ export const sendReminderEmail = async ({
       custom_message: customMessage || '',
       service_type: reminderType === ReminderType.INVOICE ? 'invoice payment' : 'contract signature',
     };
-
-    // Add parameters to form data
-    formData.append('service_id', EMAIL_SERVICE_ID);
-    formData.append('template_id', EMAIL_TEMPLATE_ID);
-    formData.append('user_id', EMAIL_PUBLIC_KEY);
     
-    // Add template parameters
-    Object.keys(templateParams).forEach(key => {
-      formData.append(`template_params[${key}]`, templateParams[key as keyof typeof templateParams]);
-    });
-    
-    // Send email using fetch to support file attachments
-    const response = await fetch('https://api.emailjs.com/api/v1.0/email/send-form', {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (response.ok) {
-      console.log('Email sent successfully');
-      return { success: true };
-    } else {
-      const errorText = await response.text();
-      console.error('Email error response:', errorText);
-      
-      // Check for common errors
-      if (errorText.includes('credit') || errorText.includes('quota') || errorText.includes('limit')) {
-        return { 
-          success: false, 
-          error: 'EmailJS credit balance is too low. Please check your account.' 
-        };
-      } else if (errorText.includes('template')) {
-        return { 
-          success: false, 
-          error: 'Template not found or template error. Please check your EmailJS template configuration.' 
-        };
-      } else {
-        return { 
-          success: false, 
-          error: 'Failed to send email: ' + errorText
-        };
-      }
+    // Make sure recipient email is set
+    if (!templateParams.to_email) {
+      return { 
+        success: false, 
+        error: "The recipient's address is empty. Please provide a valid email address." 
+      };
     }
+
+    // Try direct send method
+    console.log('Template params:', JSON.stringify(templateParams, null, 2));
+    
+    const response = await emailjs.send(
+      EMAIL_SERVICE_ID,
+      EMAIL_TEMPLATE_ID,
+      templateParams,
+      EMAIL_PUBLIC_KEY
+    );
+
+    console.log('Email sent successfully:', response);
+    return { success: true };
+    
   } catch (error) {
     console.error('Error sending email:', error);
     return { 
       success: false, 
-      error: 'Network or configuration error. Please check your internet connection and EmailJS settings.' 
+      error: error instanceof Error ? error.message : 'Unknown error sending email'
     };
   }
 };

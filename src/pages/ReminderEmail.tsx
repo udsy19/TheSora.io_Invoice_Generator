@@ -57,8 +57,8 @@ const ReminderEmail = () => {
       const emailData = {
         invoiceData: {
           clientInfo: {
-            name: formData.clientName,
-            email: formData.clientEmail,
+            name: formData.clientName.trim(),
+            email: formData.clientEmail.trim(),
             address: '',
             phone: ''
           },
@@ -77,6 +77,8 @@ const ReminderEmail = () => {
         reminderType: ReminderType.INVOICE,
         customMessage: formData.customMessage
       };
+      
+      console.log('Sending email to:', formData.clientEmail);
       
       const result = await sendReminderEmail(emailData);
       
